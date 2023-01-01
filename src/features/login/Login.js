@@ -26,14 +26,6 @@ const Login = () => {
         error
     }] = useLoginMutation()
 
-    const onCustomerClicked = () => {
-        setRole("customer")
-    }
-
-    const onAdminClicked = () => {
-        setRole("admin")
-    }
-
     useEffect(() => {
         setValidUsername(USER_REGEX.test(username))
     }, [username])
@@ -47,14 +39,24 @@ const Login = () => {
             dispatch(getLoginData({ username, password, role }))
             setUsername("")
             setPassword("")
-            navigate("/dash")
+            if (role === "customer") {
+                navigate("/dash/store")
+            } else {
+                navigate("/dash/admin")
+            }
         }
-    }, [isSuccess, navigate, dispatch, username, password])
+    }, [isSuccess, navigate, dispatch, username, password, role])
 
     const onUsernameChanged = (e) => setUsername(e.target.value)
     const onPasswordChanged = (e) => setPassword(e.target.value)
 
-    const canLogin = [validUsername, validPassword, role.length].every(Boolean) && !isLoading
+    const onCustomerClicked = () => {
+        setRole("customer")
+    }
+
+    const onAdminClicked = () => {
+        setRole("admin")
+    }
 
     const onSubmitHandle = async (e) => {
         e.preventDefault()
@@ -62,6 +64,9 @@ const Login = () => {
             await login({ username, password, role })
         }
     }
+
+
+    const canLogin = [validUsername, validPassword, role.length].every(Boolean) && !isLoading
 
     const roleCheckCustomer = role === "customer" ? "bg-orange-600" : "bg-orange-400"
     const roleCheckAdmin = role === "admin" ? "bg-teal-600" : "bg-teal-400"
@@ -122,8 +127,8 @@ const Login = () => {
                         />
                     </div>
                     <button
-                    disabled={!canLogin}
-                     className={`w-full text-white bg-blue-500 p-2 mt-4 hover:bg-blue-600 rounded font-medium ${buttonCanLogin}`}>Sign in</button>
+                        disabled={!canLogin}
+                        className={`w-full text-white bg-blue-500 p-2 mt-4 hover:bg-blue-600 rounded font-medium ${buttonCanLogin}`}>Sign in</button>
                 </form>
             </div>
         </div>

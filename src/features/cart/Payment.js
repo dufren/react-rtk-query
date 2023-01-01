@@ -54,7 +54,7 @@ const Payment = () => {
       setExpirationDate("")
       setCvv("")
       sessionStorage.clear()
-      navigate("/successful-payment")
+      navigate("/dash/successful-payment")
     }
   }, [isSuccess, dispatch, navigate])
 

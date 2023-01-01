@@ -27,14 +27,13 @@ const PackagesList = () => {
     if (isLoading) content = <PulseLoader color={"#FFF"} />
 
     if (isError) {
-        content = <p>{error?.data?.message}</p>
+        return content = <p className='text-6xl text-center mt-56'>Error {error?.originalStatus}</p>
     }
 
     if (isSuccess) {
         const { ids } = packages
         content = ids?.length && ids.map(id => <Package key={id} id={id} />)
     }
-    
 
     return (
         <div className='h-full bg-gray-300'>
@@ -44,7 +43,7 @@ const PackagesList = () => {
             </div>
             <div className='flex justify-between items-center mx-10 p-5'>
                 <p className='text-6xl font-bold font'>Cart Total: {cartTotal}</p>
-                <button onClick={() => navigate("/cart")} className='bg-blue-500 hover:bg-blue-600 p-2 rounded font-medium w-44 text-white'>Continue</button>
+                <button onClick={() => navigate("/dash/cart")} className='bg-blue-500 hover:bg-blue-600 p-2 rounded font-medium w-44 text-white'>Continue</button>
             </div>
         </div>
     )
