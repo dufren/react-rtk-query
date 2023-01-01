@@ -5,10 +5,9 @@ import { Link } from "react-router-dom"
 
 
 const DashHeader = () => {
-    const username = useSelector(store => store.login.name.username)
+    const username = useSelector(store => store.login.userInfo.username)
 
     return (
-
         <div className='flex justify-between items-center bg-white p-2 shadow'>
             <Link to={"/dash"} className="text-3xl font-bold ml-10 md:ml-20 lg:ml-40">BRAND</Link>
             <div className='flex items-center'>
@@ -16,7 +15,6 @@ const DashHeader = () => {
                 <p className='text-lg font-semibold ml-4 mr-10 md:mr-20 lg:mr-40'>{username}</p>
             </div>
         </div>
-
     )
 }
 

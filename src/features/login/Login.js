@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useLoginMutation } from './loginApiSlice'
-import { getUserInfo, isLoggedIn } from './loginSlice'
+import { getLoginData } from './loginSlice'
 
 const USER_REGEX = /^[A-z]{3,20}$/
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/
@@ -14,14 +14,25 @@ const Login = () => {
 
     const [username, setUsername] = useState("")
     const [validUsername, setValidUsername] = useState(false)
+
     const [password, setPassword] = useState("")
     const [validPassword, setValidPassword] = useState(false)
+
+    const [role, setRole] = useState("")
 
     const [login, {
         isLoading,
         isSuccess,
         error
     }] = useLoginMutation()
+
+    const onCustomerClicked = () => {
+        setRole("customer")
+    }
+
+    const onAdminClicked = () => {
+        setRole("admin")
+    }
 
     useEffect(() => {
         setValidUsername(USER_REGEX.test(username))
@@ -33,8 +44,7 @@ const Login = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            dispatch(getUserInfo({ username, password }))
-            dispatch(isLoggedIn(true))
+            dispatch(getLoginData({ username, password, role }))
             setUsername("")
             setPassword("")
             navigate("/dash")
@@ -44,17 +54,22 @@ const Login = () => {
     const onUsernameChanged = (e) => setUsername(e.target.value)
     const onPasswordChanged = (e) => setPassword(e.target.value)
 
-    const canSave = [validUsername, validPassword].every(Boolean) && !isLoading
+    const canLogin = [validUsername, validPassword, role.length].every(Boolean) && !isLoading
 
     const onSubmitHandle = async (e) => {
         e.preventDefault()
-        if (canSave) {
-            await login({ username, password })
+        if (canLogin) {
+            await login({ username, password, role })
         }
     }
 
+    const roleCheckCustomer = role === "customer" ? "bg-orange-600" : "bg-orange-400"
+    const roleCheckAdmin = role === "admin" ? "bg-teal-600" : "bg-teal-400"
+
     const validateUsername = (!validUsername && username.length > 0) ? "border-pink-500 focus:ring-pink-500" : "focus:border-gray-600 focus:outline-none"
     const validatePassword = (!validPassword && password.length > 0) ? "border-pink-500 focus:ring-pink-500" : "focus:border-gray-600 focus:outline-none"
+
+    const buttonCanLogin = canLogin ? "hover:bg-blue-600" : "opacity-50"
 
     const content = (
         <div className='bg-gray-200 h-screen w-full '>
@@ -63,6 +78,22 @@ const Login = () => {
                 <form className=' bg-white max-w-[400px] w-full mx-auto p-8' onSubmit={onSubmitHandle}>
 
                     <h1 className=" text-center text-4xl font-bold py-6">Login</h1>
+
+                    <div className='flex justify-between p-4 mb-3'>
+                        <button
+                            onClick={onCustomerClicked}
+                            type="button"
+                            className={`${roleCheckCustomer} hover:bg-orange-500 w-32 p-2 rounded text-white font-medium outline-none`}>
+                            Customer
+                        </button>
+
+                        <button
+                            onClick={onAdminClicked}
+                            type="button"
+                            className={`${roleCheckAdmin} hover:bg-teal-500 w-32 p-2 rounded text-white font-medium outline-none`}>
+                            Admin
+                        </button>
+                    </div>
 
                     <div className='flex flex-col py-2 font-medium'>
                         <label className='text-sm font-medium' htmlFor="username">Username</label>
@@ -90,12 +121,13 @@ const Login = () => {
                             required
                         />
                     </div>
-                    <button className='w-full text-white bg-blue-500 p-2 mt-4 hover:bg-blue-600 rounded  font-medium'>Sign in</button>
+                    <button
+                    disabled={!canLogin}
+                     className={`w-full text-white bg-blue-500 p-2 mt-4 hover:bg-blue-600 rounded font-medium ${buttonCanLogin}`}>Sign in</button>
                 </form>
             </div>
         </div>
     )
-
     return content
 }
 
