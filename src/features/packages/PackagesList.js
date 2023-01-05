@@ -43,7 +43,7 @@ const PackagesList = () => {
             </div>
             <div className='flex justify-between items-center mx-10 p-5'>
                 <p className='text-6xl font-bold font'>Cart Total: {cartTotal}</p>
-                <button onClick={() => navigate("/dash/cart")} className='bg-blue-500 hover:bg-blue-600 p-2 rounded font-medium w-44 text-white'>Continue</button>
+                <button onClick={() => navigate("/store/cart")} className='bg-blue-500 hover:bg-blue-600 p-2 rounded font-medium w-44 text-white'>Continue</button>
             </div>
         </div>
     )

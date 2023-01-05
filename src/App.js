@@ -8,29 +8,32 @@ import Payment from "./features/cart/Payment";
 import Success from "./features/cart/Success";
 import RequireAuth from "./features/login/RequireAuth";
 import AdminPanel from "./features/admin/AdminPanel"
+import Sidebar from "./components/Sidebar";
 
 
 function App() {
   return (
     <Routes>
-      {/* public route */}
       <Route path="/" element={<Login />} />
 
       <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
         <Route element={<Prefetch />}>
-          <Route path="dash" element={<Layout />}>
 
-            <Route element={<RequireAuth allowedRoles={[ROLES.Customer]} />}>
-              <Route path="store" element={<PackagesList />} />
+          <Route element={<RequireAuth allowedRoles={[ROLES.Customer]} />}>
+            <Route path="/store" element={<Layout />}>
+              <Route index element={<PackagesList />} />
               <Route path="cart" element={<Payment />} />
               <Route path="successful-payment" element={<Success />} />
             </Route>
-
-            <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-              <Route path="admin" element={<AdminPanel />} />
-            </Route>
-
           </Route>
+
+          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+            <Route path="admin" element={<Sidebar />}>
+              <Route index element={<AdminPanel />} />
+            </Route>
+          </Route>
+
+
         </Route>
       </Route>
     </Routes>

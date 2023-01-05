@@ -40,9 +40,9 @@ const Login = () => {
             setUsername("")
             setPassword("")
             if (role === "customer") {
-                navigate("/dash/store")
+                navigate("/store")
             } else {
-                navigate("/dash/admin")
+                navigate("/admin")
             }
         }
     }, [isSuccess, navigate, dispatch, username, password, role])
@@ -68,8 +68,8 @@ const Login = () => {
 
     const canLogin = [validUsername, validPassword, role.length].every(Boolean) && !isLoading
 
-    const roleCheckCustomer = role === "customer" ? "bg-orange-600" : "bg-orange-400"
-    const roleCheckAdmin = role === "admin" ? "bg-teal-600" : "bg-teal-400"
+    const roleCheckCustomer = role === "customer" ? "bg-gray-600" : "bg-gray-400"
+    const roleCheckAdmin = role === "admin" ? "bg-gray-600" : "bg-gray-400"
 
     const validateUsername = (!validUsername && username.length > 0) ? "border-pink-500 focus:ring-pink-500" : "focus:border-gray-600 focus:outline-none"
     const validatePassword = (!validPassword && password.length > 0) ? "border-pink-500 focus:ring-pink-500" : "focus:border-gray-600 focus:outline-none"
@@ -88,14 +88,14 @@ const Login = () => {
                         <button
                             onClick={onCustomerClicked}
                             type="button"
-                            className={`${roleCheckCustomer} hover:bg-orange-500 w-32 p-2 rounded text-white font-medium outline-none`}>
+                            className={`${roleCheckCustomer} w-32 p-2 rounded text-white font-medium outline-none`}>
                             Customer
                         </button>
 
                         <button
                             onClick={onAdminClicked}
                             type="button"
-                            className={`${roleCheckAdmin} hover:bg-teal-500 w-32 p-2 rounded text-white font-medium outline-none`}>
+                            className={`${roleCheckAdmin} w-32 p-2 rounded text-white font-medium outline-none`}>
                             Admin
                         </button>
                     </div>
