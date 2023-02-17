@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "./loginApiSlice";
 import { getLoginData } from "./loginSlice";
-import { Link } from "react-router-dom";
 
 const USER_REGEX = /^[A-z]{3,20}$/;
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
@@ -18,7 +17,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
 
-  const [login, { isLoading, isSuccess, error }] = useLoginMutation();
+  const [login, { isLoading, isSuccess }] = useLoginMutation();
 
   useEffect(() => {
     setValidUsername(USER_REGEX.test(username));
@@ -63,11 +62,14 @@ const Login = () => {
   const content = (
     <div className="bg-gray-200 h-screen w-full ">
       <h1 className="text-5xl text-center mb-10">Welcome</h1>
-      <p className="text-2xl text-center">
+      <p
+        className="text-2xl text-center mb-44
+      "
+      >
         This is a simple trading website. You can login with any value. You can
         add products to your cart and make the payment.
       </p>
-      <div className="h-full flex justify-center items-center">
+      <div className="flex justify-center items-center">
         <form
           className=" bg-white max-w-[400px] w-full mx-auto p-8"
           onSubmit={onSubmitHandle}
@@ -108,7 +110,7 @@ const Login = () => {
             disabled={!canLogin}
             className={`w-full text-white bg-blue-500 p-2 mt-4 hover:bg-blue-600 rounded font-medium ${buttonCanLogin}`}
           >
-            Login
+            {!isLoading ? "Login" : "Loading..."}
           </button>
         </form>
       </div>
