@@ -5,7 +5,6 @@ import Prefetch from "./features/login/Prefetch";
 import Payment from "./features/cart/Payment";
 import Success from "./features/cart/Success";
 import RequireAuth from "./features/login/RequireAuth";
-
 import { Routes, Route } from "react-router-dom";
 
 function App() {
