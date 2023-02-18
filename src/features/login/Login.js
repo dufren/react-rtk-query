@@ -112,7 +112,6 @@ const Login = () => {
             className={`w-full text-white bg-blue-500 p-2 mt-4 hover:bg-blue-600 rounded font-medium ${buttonCanLogin}`}
           >
             {!isLoading ? "Login" : <PulseLoader color={"#FFF"} />}
-            {}
           </button>
         </form>
       </div>
