@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "./loginApiSlice";
 import { getLoginData } from "./loginSlice";
+import { PulseLoader } from "react-spinners";
 
 const USER_REGEX = /^[A-z]{3,20}$/;
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
@@ -110,7 +111,8 @@ const Login = () => {
             disabled={!canLogin}
             className={`w-full text-white bg-blue-500 p-2 mt-4 hover:bg-blue-600 rounded font-medium ${buttonCanLogin}`}
           >
-            {!isLoading ? "Login" : "Loading..."}
+            {!isLoading ? "Login" : <PulseLoader color={"#FFF"} />}
+            {}
           </button>
         </form>
       </div>
